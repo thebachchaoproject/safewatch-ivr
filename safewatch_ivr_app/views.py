@@ -54,11 +54,9 @@ NO_INPUT_MESSAGE = "Sorry, I didn't catch that. Please hangup and try again \
 # This is the message that Plivo reads when the caller inputs a wrong number.
 WRONG_INPUT_MESSAGE = "Sorry, it's wrong input."
 
-URLS_FOR_APIS = [
-	]
+URLS_FOR_APIS = "YOUR_SERVER_URL"
 
-URLS_FOR_AUDIOS = [
-	]
+URLS_FOR_AUDIOS = "YOUR_SERVER_URL_and_PATH_TO_FILES"
 
 @csrf_exempt 
 @api_view(['GET', 'POST'])
@@ -67,10 +65,10 @@ def FirstQ(request):
 	response = plivoxml.Response()
 	if request.method == 'GET':
 		#getdigits_action_url = url('ivr', _external=True)
-		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS['1'],
+		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS+'firstq/',
 										method='POST', timeout=10, numDigits=1,
 										retries=2)
-		getDigits.addPlay(URLS_FOR_AUDIOS['1'])
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
 		response.add(getDigits) 
 		response.addSpeak(NO_INPUT_MESSAGE)
 
@@ -80,10 +78,10 @@ def FirstQ(request):
 		digit = request.POST['Digits']
 		print request.POST
 		
-		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS['2'],
+		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS+'secondq/',
 										method='POST', timeout=10, numDigits=2,
 										retries=2)
-		getDigits.addPlay(URLS_FOR_AUDIOS['2'])
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
 		response.add(getDigits)
 		response.addSpeak(NO_INPUT_MESSAGE)
 		data = {}
@@ -108,21 +106,21 @@ def SecondQ(request):
 	response = plivoxml.Response()
 	if request.method == 'POST':
 		digit = request.POST['Digits']
-		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS['3'],
+		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS+'thirdq/',
 										method='POST', timeout=10, numDigits=1,
 										retries=2)
-		getDigits.addPlay(URLS_FOR_AUDIOS['3'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['4'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['5'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['6'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['7'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['8'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['9'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['10'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['11'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['12'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['13'])
-		getDigits.addPlay(URLS_FOR_AUDIOS['14'])
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
 
 		response.add(getDigits)
 		response.addSpeak(NO_INPUT_MESSAGE)
@@ -150,10 +148,10 @@ def ThirdQ(request):
 	response = plivoxml.Response()
 	if request.method == 'POST':
 		digit = request.POST['Digits']
-		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS['4'],
+		getDigits = plivoxml.GetDigits(action=URLS_FOR_APIS+'thirdq/',
 										method='POST', timeout=10, numDigits=1,
 										retries=2)
-		getDigits.addPlay(URLS_FOR_AUDIOS['1'])
+		getDigits.addPlay(URLS_FOR_AUDIOS+"you_rec_filename")
 		data_temp = {}
 		if digit:
 			data_temp = {'incident_category' : digit}
@@ -197,10 +195,10 @@ def MakeCall(request):
 		params = {
 			'to': request.POST['to'], # The phone numer to which the all has to be placed
 			'from' : request.POST['from'], # The phone number to be used as the caller id
-			'answer_url' : URLS_FOR_APIS['5'], # The URL invoked by Plivo when the outbound call is answered
+			'answer_url' : URLS_FOR_APIS+'firstq/', # The URL invoked by Plivo when the outbound call is answered
 			'answer_method' : "GET", # The method used to call the answer_url
 			# Example for Asynchrnous request
-			'hangup_url' : URLS_FOR_APIS['6'],
+			'hangup_url' : URLS_FOR_APIS+'storedata/',
 			'hangup_method' : "POST",
 			#'callback_url' : "" # The URL notified by the API response is available and to which the response is sent.
 			#'callback_method' : "GET" # The method used to notify the callback_url.
